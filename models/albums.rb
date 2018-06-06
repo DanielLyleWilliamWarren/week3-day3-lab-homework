@@ -2,6 +2,9 @@ require('pg')
 
 class Album
 
+attr_reader(:artist_id, :id)
+attr_accessor(:title, :genre)
+
 def initialize(options)
   @title = options['title']
   @genre = options['genre']
@@ -38,5 +41,12 @@ def self.delete_all
   sql = 'DELETE FROM albums'
   SqlRunner.run(sql)
 end
+
+def update_album()
+  sql = "UPDATE albums SET (title, genre, artist_id) = ($1, $2, $3) WHERE id = $4"
+  values = [@title, @genre, @artist_id, @id]
+  SqlRunner.run(sql, values)
+end
+
 
 end
